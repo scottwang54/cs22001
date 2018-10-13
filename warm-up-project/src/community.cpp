@@ -65,6 +65,7 @@ bool Community::send_msg(list<string> usernames, string msg) {
 	//TODO
 	// send msg to a Person addressed by username
 	// make sure the username is validated
+  printf("GHE");
 	return false;
 }
 
