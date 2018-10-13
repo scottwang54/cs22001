@@ -7,6 +7,7 @@ bool str_isalpha(const string str){
     return true;
 }
 
+
 bool str_isalnum(const string s)
 {
     std::string::const_iterator it = s.begin();
