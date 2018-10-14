@@ -29,9 +29,9 @@ bool Community::set_name(string _name) {
 }
 
 bool Community::add_person(Person _person) {
-    contact to_add(_person.get_username(), _person);
-    people.insert(to_add); // ADDED THIS LINE
-    return false;
+  contact to_add(_person.get_username(), _person);
+  people.insert(to_add); // ADDED THIS LINE
+  return false;
 }
 
 // return the person object for a given username
@@ -47,7 +47,7 @@ Person& Community::get_member(string username) {
     
 list<string> Community::get_all_usernames() {
     list<string> usernames;
-    for (std::map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
+    for (map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
       usernames.push_back(it->first);
     }
     return usernames;
@@ -55,13 +55,13 @@ list<string> Community::get_all_usernames() {
 
 void Community::print_all_usernames() {
   for (auto v : this->get_all_usernames()) {
-        cout << v << "\n";
+    cout << v << "\n";
   }
 }
 
 list<Person> Community::find_member(string firstname) {
     list<Person> ret;
-    for (std::map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
+    for (map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
       if (it->second.get_firstname() == firstname) {
         ret.push_back(it->second);
       }
@@ -72,7 +72,7 @@ list<Person> Community::find_member(string firstname) {
 list<Person> Community::find_member(int age_lb, int age_ub) {
   list<Person> ret;
   int age;
-  for (std::map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
+  for (map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
     age = it->second.get_age();
     if (age >= age_lb && age <= age_ub) {
       ret.push_back(it->second);
@@ -82,7 +82,17 @@ list<Person> Community::find_member(int age_lb, int age_ub) {
 }
 
 bool Community::send_msg(list<string> usernames, string msg) {
-	
-	return false;
+  bool allsend = true;
+  for (std::list<string>::iterator it=usernames.begin(); it!=usernames.end(); it++) {
+    Person& recipient = get_member(*it);
+    if (recipient.get_username() != "") {
+      recipient.get_msg(msg);
+      recipient.get_msg_with_info(msg, NULL);
+    }
+    else {
+      allsend = false;
+    }
+  }
+  return allsend;
 }
 
