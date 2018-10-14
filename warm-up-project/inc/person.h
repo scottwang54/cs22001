@@ -54,6 +54,7 @@ class Person {
     bool send_msg(Person &recipient, string msg);
     void get_msg(string msg);
     int  get_msgstat(Person recipient); //return how many unread messages from recipent in inbox
+    void get_msg_with_info (string msg, Person* sender); //the recipient receives messages from the sender
     bool read_msg(); //return value indicates whether the inbox is empty or not
 };
 

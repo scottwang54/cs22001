@@ -1,4 +1,5 @@
 #include "community.h"
+#include <regex>
 
 Community::Community()
   : name(""), people(map<string,Person>()) {
@@ -6,6 +7,12 @@ Community::Community()
 
 Community::Community(string _name, map<string,Person> _people) 
   : name(_name), people(_people) {
+
+  regex r("^[[:alpha:]][[:alphanum:]]*$");
+  if (_name.length() > 128 || !regex_match(_name, r)) {
+    name = "";
+    people = map<string,Person>();
+  }
 }
 
 string Community::get_name() {
@@ -13,9 +20,12 @@ string Community::get_name() {
 }
 
 bool Community::set_name(string _name) {
-	//TODO
-	// set name
-    return false;
+	regex r("^[[:alpha:]][[:alphanum:]]*$");
+  if (_name.length() <= 128 && regex_match(_name, r)) {
+    name = _name;
+    return true;
+  } 
+  return false;
 }
 
 bool Community::add_person(Person _person) {
@@ -65,7 +75,6 @@ bool Community::send_msg(list<string> usernames, string msg) {
 	//TODO
 	// send msg to a Person addressed by username
 	// make sure the username is validated
-  printf("GHE");
 	return false;
 }
 

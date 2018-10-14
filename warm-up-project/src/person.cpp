@@ -1,4 +1,5 @@
 #include "person.h"
+#include <regex>
 
 bool str_isalpha(const string str){
     for(int i = 0; i < str.size(); i++)
@@ -15,6 +16,7 @@ bool str_isalnum(const string s)
     return !s.empty() && it == s.end();
 }
 
+/*
 bool atleastone_alnum(const string str)
 // helper function to check for at least >1 digit and alphabet
 {
@@ -34,7 +36,7 @@ bool atleastone_alnum(const string str)
     return false;
   }
 }
-
+*/
 Person::Person() 
   : username(""), firstname(""), lastname(""), gender(0), age(0), tagline("") {
 }
@@ -69,54 +71,52 @@ string Person::get_info() {
 }
 
 bool Person::set_username(string _username) {
-  if (_username.length()<65
-      //&& str_isalnum(_username)
-      //&& isalpha(_username.at(0))
-      //&& (_username.length()!=0))
-      && atleastone_alnum(_username)) {
+  regex r("^[[:alpha:]](?:.*[[:d:]])[[:alphanum:]]*$");
+  if (_username.length() <= 64 && regex_match(_username, r)) {
+    username = _username;
     return true;
-  } else {
+  } 
+  else {
     return false;
   }
 }
 
 bool Person::set_firstname(string _firstname) {
-  if ((_firstname.length()<65)
-      && str_isalpha(_firstname)
-      && (_firstname.length()!=0)) {
-        firstname = _firstname;
-        return true;
-    }
-    else {
-        return false;
-    }
+  regex r("^[[:alpha:]]*$");
+  if (_firstname.length()<= 64 && regex_match(_firstname, r)) {
+    firstname = _firstname;
+    return true;
+  }
+  else {
+    return false;
+  }
 } //--------------DONE--------------//
 
 
 bool Person::set_lastname(string _lastname) {
-  if ((_lastname.length() < 65)
-      && str_isalpha(_lastname)
-      && (_lastname.length()!= 0)) {
-        lastname = _lastname;
-        return true;
-    }
-    else {
-        return false;
-    }
+  regex r("^[[:alpha:]]*$");
+  if (_lastname.length()<= 64 && regex_match(_lastname, r)) {
+    lastname = _lastname;
+    return true;
+  }
+  else {
+    return false;
+  }
 } //--------DONE----------//
 
 bool Person::set_gender(int _gender){
   if (_gender == 1 || _gender == 2) {
     gender = _gender;
     return true;
-  } else {
+  } 
+  else {
     return false;
   }
 } // --------DONE---------- //
 
 bool Person::set_age(int _age) {
-  if (_age>15 && _age<100) {
-    Person::age = _age;
+  if (_age>=18 && _age<=100) {
+    age = _age;
     return true;
   }
   else {
@@ -126,28 +126,41 @@ bool Person::set_age(int _age) {
 
 
 bool Person::set_tagline(string _tagline) {
-	// TODO
-    if (0/* fill in any necessary tests here */) {
-        tagline = _tagline;
-        return true;
-    }
-    else {
-        return false;
-    }
+  if (_tagline.length() <= 128) {
+    tagline = _tagline;
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 
 bool Person::set_info(string _username, string _firstname, string _lastname,
                       int _age, string _tagline, int _gender) {
-    // TODO
-	// set the information for
-	// 1) username
-	// 2) firstname
-	// 3) lastnam3
-	// 4) age
-	// 5) tagline
-    // 6) gender
-	return false;
+  string old_username = username;
+  string old_firstname = firstname;
+  string old_lastname = lastname;
+  int old_age = age;
+  string old_tagline = tagline;
+  int old_gender = gender;
+
+  if (set_username(_username) &&
+      set_firstname(_firstname) &&
+      set_lastname(_lastname) &&
+      set_gender(_gender) &&
+      set_age(_age) &&
+      set_tagline(_tagline)) {
+    return true;
+  }
+  
+  username = old_username;
+  firstname = old_firstname;
+  lastname = old_lastname;
+  age = old_age;
+  tagline = old_tagline;
+  gender = old_gender;
+  return false;
 }
 
 bool Person::send_msg(Person &recipient, string msg) {
@@ -163,6 +176,10 @@ void Person::get_msg(string msg) {
 
 int Person::get_msgstat(Person recipient){
 	return 0;
+}
+
+void Person::get_msg_with_info (string msg, Person* sender){
+  // TODO
 }
 
 bool Person::read_msg() {
