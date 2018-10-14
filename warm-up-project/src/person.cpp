@@ -190,17 +190,31 @@ void Person::get_msg(string msg) {
 }
 
 int Person::get_msgstat(Person recipient){
-	return 0;
+	queue<pair<string,Person*> > inbox_stat_copy = inbox_stat;
+  int result = 0;
+  pair<string,Person*> entry;
+  while (!inbox_stat_copy.empty()) {
+    if (inbox_stat_copy.front().first == recipient.username) {
+      result++;
+    }
+    inbox_stat_copy.pop();
+  }
+  return result;
 }
 
 void Person::get_msg_with_info (string msg, Person* sender){
-  // TODO
+  inbox_stat.push(make_pair(msg,sender));
 }
 
 bool Person::read_msg() {
-	// TODO
-	// print the message if there any message inbox
+	if (inbox.empty() || inbox_stat.empty()) {
     return false;
+  }
+  else {
+    inbox.pop();
+    inbox_stat.pop();
+    return true;
+  }
 
 }
 

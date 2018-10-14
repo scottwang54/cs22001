@@ -47,34 +47,42 @@ Person& Community::get_member(string username) {
     
 list<string> Community::get_all_usernames() {
     list<string> usernames;
-    // TODO
-    // return all usernames of members as a list
+    for (std::map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
+      usernames.push_back(it->first);
+    }
     return usernames;
 }
 
 void Community::print_all_usernames() {
-    // TODO
-	// print all usernames of members to the console
+  for (auto v : this->get_all_usernames()) {
+        cout << v << "\n";
+  }
 }
 
 list<Person> Community::find_member(string firstname) {
     list<Person> ret;
-    //TODO
-    // find users with a certain first name
+    for (std::map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
+      if (it->second.get_firstname() == firstname) {
+        ret.push_back(it->second);
+      }
+    }
     return ret;
 }
 
 list<Person> Community::find_member(int age_lb, int age_ub) {
   list<Person> ret;
-  //TODO
-  // find users within certain ages [age_lb, age_ub], both lower bound and upper bound shall be inclusive
+  int age;
+  for (std::map<string,Person>::iterator it=people.begin(); it!=people.end(); it++) {
+    age = it->second.get_age();
+    if (age >= age_lb && age <= age_ub) {
+      ret.push_back(it->second);
+    }
+  }
   return ret;
 }
 
 bool Community::send_msg(list<string> usernames, string msg) {
-	//TODO
-	// send msg to a Person addressed by username
-	// make sure the username is validated
+	
 	return false;
 }
 

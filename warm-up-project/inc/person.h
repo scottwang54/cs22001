@@ -21,14 +21,16 @@ class Person {
     // store received messages
     // ignore classifications
     // when a message is retrieved, delete it immediately
-    queue<string> inbox;
+    // (we don't really use this)
+    queue<string> inbox; 
     // store received messages
     // similar as inbox, except also recording sender 
     // when a message is retrieved, delete it immediately
-    queue<pair<string,Person> > inbox_stat;    
+    queue<pair<string,Person*> > inbox_stat;    
   public:
    
     // record how many messages have been received from others
+    // (we don't really use this)
     map<string,int> msg_stat;      
     Person();
     Person(string _username, string _firstname, string _lastname, 
