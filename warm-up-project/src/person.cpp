@@ -41,7 +41,7 @@ bool atleastone_alnum(const string str)
 */
 Person::Person() 
   : username(""), firstname(""), lastname(""), gender(0), age(0), tagline("") {
-}
+} // why do we need this one in addition to the line below
 
 Person::Person(string _username, string _firstname, string _lastname, 
                int _gender, int _age, string _tagline)
@@ -54,7 +54,7 @@ Person::Person(string _username, string _firstname, string _lastname,
     lastname = "";
     gender = 0;
     age = 0;
-    tagline = "";
+    tagline = ""; // if set info fails, return a Person with empty fields
   }
 }
 

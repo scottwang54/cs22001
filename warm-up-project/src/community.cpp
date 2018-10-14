@@ -30,7 +30,7 @@ bool Community::set_name(string _name) {
 
 bool Community::add_person(Person _person) {
     contact to_add(_person.get_username(), _person);
-    
+    people.insert(to_add); // ADDED THIS LINE
     return false;
 }
 
