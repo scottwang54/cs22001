@@ -16,6 +16,8 @@ TEST_F(test_person, test_username) {
   EXPECT_FALSE(person.set_username("themaroongreat!")); // non alphanumeric exclamation mark
   EXPECT_FALSE(person.set_username("123maroonusername")); // starts with number
   EXPECT_TRUE(person.set_username("hellowolrld")); // allowed -- THIS IS NOT PASSING THOUGH!
+  EXPECT_FALSE(person.set_username(""));
+  EXPECT_FALSE(person.set_username("2boy"));
 }
 
 // test get_firstname and set_firstname

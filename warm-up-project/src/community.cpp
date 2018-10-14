@@ -8,7 +8,7 @@ Community::Community()
 Community::Community(string _name, map<string,Person> _people) 
   : name(_name), people(_people) {
 
-  regex r("^[[:alpha:]][[:alphanum:]]*$");
+  regex r("^[[:alpha:]][[:alnum:]]*$");
   if (_name.length() > 128 || !regex_match(_name, r)) {
     name = "";
     people = map<string,Person>();
@@ -20,7 +20,7 @@ string Community::get_name() {
 }
 
 bool Community::set_name(string _name) {
-	regex r("^[[:alpha:]][[:alphanum:]]*$");
+	regex r("^[[:alpha:]][[:alnum:]]*$");
   if (_name.length() <= 128 && regex_match(_name, r)) {
     name = _name;
     return true;

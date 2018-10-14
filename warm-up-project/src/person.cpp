@@ -1,5 +1,7 @@
 #include "person.h"
 #include <regex>
+#include <iostream>
+#include <fstream>
 
 bool str_isalpha(const string str){
     for(int i = 0; i < str.size(); i++)
@@ -71,7 +73,9 @@ string Person::get_info() {
 }
 
 bool Person::set_username(string _username) {
-  regex r("^[[:alpha:]](?:.*[[:d:]])[[:alphanum:]]*$");
+  //try {
+  regex r("^[[:alpha:]]+[[:digit:]]+[[:alnum:]]*$");
+
   if (_username.length() <= 64 && regex_match(_username, r)) {
     username = _username;
     return true;
@@ -79,10 +83,21 @@ bool Person::set_username(string _username) {
   else {
     return false;
   }
+  /*
+  } catch (std::regex_error& e) {
+    
+    ofstream ofs("file.txt");
+    streambuf* oldrdbuf = cerr.rdbuf(ofs.rdbuf());
+
+    std::cerr << e.code();
+    
+    cerr.rdbuf(oldrdbuf);
+    return false;
+  }*/
 }
 
 bool Person::set_firstname(string _firstname) {
-  regex r("^[[:alpha:]]*$");
+  regex r("^[[:alpha:]]+$");
   if (_firstname.length()<= 64 && regex_match(_firstname, r)) {
     firstname = _firstname;
     return true;
@@ -94,7 +109,7 @@ bool Person::set_firstname(string _firstname) {
 
 
 bool Person::set_lastname(string _lastname) {
-  regex r("^[[:alpha:]]*$");
+  regex r("^[[:alpha:]]+$");
   if (_lastname.length()<= 64 && regex_match(_lastname, r)) {
     lastname = _lastname;
     return true;
