@@ -30,19 +30,18 @@ TEST_F(test_community, add_person) {
 	
 
 	// below we add the new person
-	Person* new_person = new Person();
-	new_person->set_username("csiluser2");
-	new_person->set_firstname("Tim");
-	new_person->set_lastname("Cook");
-	new_person->set_age(55);
-	new_person->set_gender(2);
+	Person* new_person = new Person("csiluser3", "Tim", "Cook", 2, 30, "AwesomePossum");
 	community.add_person(*new_person);
 
 	// below we test if the new person has been successfully added
-	Person retrieved_person = community.get_member("csiluser2");
-	EXPECT_STREQ(retrieved_person.get_username().c_str(),"csiluser2");
+	Person retrieved_person = community.get_member("csiluser3");
+	EXPECT_STREQ(retrieved_person.get_username().c_str(),"csiluser3");
 	EXPECT_STREQ(retrieved_person.get_firstname().c_str(),"Tim");
 	EXPECT_STREQ(retrieved_person.get_lastname().c_str(),"Cook");
+	EXPECT_EQ(retrieved_person.get_age(),30);
+
+	// NOT WORKING! 
+
 }
 
 // test get_all_usernames
