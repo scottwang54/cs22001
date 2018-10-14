@@ -47,6 +47,15 @@ Person::Person(string _username, string _firstname, string _lastname,
                int _gender, int _age, string _tagline)
   : username(_username), firstname(_firstname), lastname(_lastname),
     gender(_gender), age(_age), tagline(_tagline) {
+
+  if (set_info(_username, _firstname, _lastname, _age, _tagline, _gender) == false) {
+    username = "";
+    firstname = "";
+    lastname = "";
+    gender = 0;
+    age = 0;
+    tagline = "";
+  }
 }
 
 string Person::get_username() {
@@ -73,9 +82,7 @@ string Person::get_info() {
 }
 
 bool Person::set_username(string _username) {
-  //try {
   regex r("^[[:alpha:]]+[[:digit:]]+[[:alnum:]]*$");
-
   if (_username.length() <= 64 && regex_match(_username, r)) {
     username = _username;
     return true;
@@ -83,17 +90,6 @@ bool Person::set_username(string _username) {
   else {
     return false;
   }
-  /*
-  } catch (std::regex_error& e) {
-    
-    ofstream ofs("file.txt");
-    streambuf* oldrdbuf = cerr.rdbuf(ofs.rdbuf());
-
-    std::cerr << e.code();
-    
-    cerr.rdbuf(oldrdbuf);
-    return false;
-  }*/
 }
 
 bool Person::set_firstname(string _firstname) {
@@ -179,14 +175,18 @@ bool Person::set_info(string _username, string _firstname, string _lastname,
 }
 
 bool Person::send_msg(Person &recipient, string msg) {
-	// TODO
-	// send message
-	return false;
+	if (recipient.get_msgstat(*this) > 10) {
+    return false;
+  }
+  else {
+    recipient.get_msg(msg);
+    recipient.get_msg_with_info(msg, this);
+    return true;
+  }
 }
 
 void Person::get_msg(string msg) {
-	// TODO
-	// get message
+	inbox.push(msg);
 }
 
 int Person::get_msgstat(Person recipient){
