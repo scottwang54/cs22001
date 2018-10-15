@@ -168,6 +168,14 @@ TEST_F(test_community, find_member) {
 
 // test get_member
 TEST_F(test_community, get_member) {
+	Person* new_person3 = new Person("csiluser3", "Tim", "Cook", 2, 30, "Possum");
+	Person* new_person4 = new Person("csiluser4", "Tim", "Boyer", 2, 55, "Possum");
+	community.add_person(*new_person3);
+	community.add_person(*new_person4);
+
+	// Check if we return the right person, given a username
+	// Take the get_member output, which is a Person, and extract the username of that,
+	// and see if the username matches what is supposed to be the username (hardcode) 
 }
 
 // test send_msg
