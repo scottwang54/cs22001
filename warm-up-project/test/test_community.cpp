@@ -13,7 +13,8 @@ protected:
 
 // test get_name
 TEST_F(test_community, get_name) {
-	EXPECT_STREQ(community.get_name().c_str(),"legitcommunity");
+	community.set_name("community2018");
+	EXPECT_STREQ(community.get_name().c_str(),"community2018");
 }
 
 // test set_name
@@ -60,7 +61,7 @@ TEST_F(test_community, add_person) {
 TEST_F(test_community, get_all_usernames) {
 }
 
-// Scott's edit!
+// Scott's edit! This is a hlper function for testing find_member.
 // https://stackoverflow.com/questions/16747591/how-to-get-an-element-at-specified-index-from-c-list
 string get_element_in_list(list<string> _list, int _i) {
 	list<string>::iterator it = _list.begin();
@@ -70,7 +71,7 @@ string get_element_in_list(list<string> _list, int _i) {
 	return *it;
 } 
 
-// Scott's edit!
+// Scott's edit! This is a hlper function for testing find_member.
 // https://www.geeksforgeeks.org/check-if-two-arrays-are-equal-or-not/
 bool lists_are_equal(list<Person> list1, list<Person>list2) {
 	
