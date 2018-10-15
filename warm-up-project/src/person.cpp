@@ -3,12 +3,12 @@
 #include <iostream>
 #include <fstream>
 
-bool str_isalpha(const string str){
-    for(int i = 0; i < str.size(); i++)
-    	if((isalpha(str[i]) == 0) || (str[i] == ' '))
-    		return false;
-    return true;
-}
+// bool str_isalpha(const string str){
+//    for(int i = 0; i < str.size(); i++)
+//    	if((isalpha(str[i]) == 0) || (str[i] == ' '))
+//    		return false;
+//    return true;
+//}
 
 
 bool str_isalnum(const string s)
@@ -77,8 +77,12 @@ string Person::get_tagline() {
     return tagline;
 }
 string Person::get_info() {
-	string ret = "";
-    return ret;
+  std::stringstream buffer;
+  buffer << "Username: " << username <<
+    ", Firstname: " << firstname << ", Lastname: " << lastname <<
+    ", Age: " << age << ", Tagline: " << tagline << ", Gender: " << gender;
+  string ret = buffer.str();
+  return ret;
 }
 
 bool Person::set_username(string _username) {

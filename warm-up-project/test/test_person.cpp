@@ -71,13 +71,27 @@ TEST_F(test_person,test_gender){
 
 // test get_tagline and set_tagline
 TEST_F(test_person, test_tagline) {
+
+  // test set_tagline
+  EXPECT_TRUE(person.set_tagline("sleepisfortheweak"));
+  EXPECT_TRUE(person.set_tagline("2018isagreatyear"));
+  EXPECT_FALSE(person.set_tagline("toomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanycharstoomanychars"));
+  EXPECT_TRUE(person.set_tagline("goodtagline"));
+
+  // test get_tagline
+  EXPECT_STREQ(person.get_tagline().c_str(),"goodtagline");
 }
 
 // test get_info and set_info
 TEST_F(test_person, test_info) {
+  
+  // test set_info
+  EXPECT_FALSE(person.set_info("fakename","John","Smith",30,"gomaroons",2));
+  EXPECT_TRUE(person.set_info("allowedname01","John","Smith",30,"gomaroons",2));
+  
+  // test get_info
+  EXPECT_STREQ(person.get_info().c_str(),"Username: allowedname01, Firstname: John, Lastname: Smith, Age: 30, Tagline: gomaroons, Gender: 2");
 }
-
-
 
 // test get_msgstat, send_msg and read_msg
 //   to make your code shorter, we suggest combining these tests together; you

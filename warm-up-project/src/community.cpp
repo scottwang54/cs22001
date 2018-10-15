@@ -28,10 +28,26 @@ bool Community::set_name(string _name) {
   return false;
 }
 
+// Scott edits! This is a helper function to check is a username is present in a map of people.
+int is_present(string username, map<string,Person> people) {
+  int res = 0;
+  for (map<string,Person>::iterator it = people.begin(); it!=people.end(); it++) {
+    if (strcmp(it->second.get_username().c_str(),username.c_str()) == 0) {
+      res = 1;
+    } 
+  }
+  return res;
+}
+
+// Scott edits! 
 bool Community::add_person(Person _person) {
   contact to_add(_person.get_username(), _person);
-  people.insert(to_add); // ADDED THIS LINE
-  return false;
+  if ((is_present(_person.get_username(),people) == 0) && // if not present
+      strcmp(_person.get_username().c_str(),"") != 0) { // and username isn't empty
+    people.insert(to_add); // then insert
+    return true;
+  } else
+    return false; // otherwise simply return false
 }
 
 // return the person object for a given username
