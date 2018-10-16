@@ -238,5 +238,27 @@ TEST_F(test_community, get_member) {
 
 // test send_msg
 TEST_F(test_community, send_msg) {
+  Person* new_person3 = new Person("csiluser3", "Tim", "Cook", 2, 30, "Possum");
+  Person* new_person4 = new Person("csiluser4", "Tim", "Boyer", 2, 55, "Possum");
+  
+  community.add_person(*new_person3);
+  community.add_person(*new_person4);
+  
+  string sender_username = "csiluser3";
+  string rec_username = "csiluser4";
+  
+  Person sender_person = community.get_member("csiluser3");
+  Person rec_person = community.get_member("csiluser4"); 
+  
+  // Test sending to csiluser4
+  bool res = sender_person.send_msg(rec_person, "heydude");
+  EXPECT_TRUE(res);
+  
+  // Test receiving the email correctly
+  // queue<string> res2 = rec_person.inbox;
+  
+  
+  
+  
 }
 
