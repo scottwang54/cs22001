@@ -23,7 +23,6 @@ TEST_F(test_community, set_name) {
 	EXPECT_TRUE(community.set_name("legitcommunity")); // should pass.
 }
 
-// Scott edits!
 // test add_person
 TEST_F(test_community, add_person) {
 	
@@ -61,8 +60,6 @@ TEST_F(test_community, add_person) {
 }
 
 
-// Scott's edit! This is a hlper function for testing find_member.
-// https://stackoverflow.com/questions/16747591/how-to-get-an-element-at-specified-index-from-c-list
 string get_element_in_list(list<string> _list, int _i) {
 	list<string>::iterator it = _list.begin();
 	for (int i = 0; i<_i; i++) {
@@ -71,8 +68,6 @@ string get_element_in_list(list<string> _list, int _i) {
 	return *it;
 } 
 
-// Scott's edit! This is a hlper function for testing find_member.
-// https://www.geeksforgeeks.org/check-if-two-arrays-are-equal-or-not/
 bool lists_are_equal_for_persons(list<Person> list1, list<Person>list2) {
 	
 	list<string> usernames1;
@@ -119,9 +114,6 @@ bool lists_are_equal_for_strings(list<string> string_list1, list<string> string_
   return true;
 }
 
-// test get_all_usernames
-//   there's no EXPECT functions for comparing non-built-in types, you need to
-//   do some parsing by yourself
 TEST_F(test_community, get_all_usernames) {
   Person* new_person3 = new Person("csiluser3", "Tim", "Cook", 2, 30, "Possum");
   Person* new_person4 = new Person("csiluser4", "Tim", "Boyer", 2, 55, "Possum");
@@ -137,8 +129,6 @@ TEST_F(test_community, get_all_usernames) {
   
 }
 
-// Scott's edit!
-// test find_member by first name and age range
 TEST_F(test_community, find_member) {
 
 	Person* new_person3 = new Person("csiluser3", "Tim", "Cook", 2, 30, "Possum");
@@ -199,8 +189,6 @@ TEST_F(test_community, find_member) {
 
 }
 
-// Scott's edit! 
-// test get_member
 TEST_F(test_community, get_member) {
 	Person* new_person3 = new Person("csiluser3", "Tim", "Cook", 2, 30, "Possum");
 	Person* new_person4 = new Person("csiluser4", "Tim", "Boyer", 2, 55, "Possum");
@@ -238,27 +226,52 @@ TEST_F(test_community, get_member) {
 
 // test send_msg
 TEST_F(test_community, send_msg) {
-  Person* new_person3 = new Person("csiluser3", "Tim", "Cook", 2, 30, "Possum");
-  Person* new_person4 = new Person("csiluser4", "Tim", "Boyer", 2, 55, "Possum");
-  
-  community.add_person(*new_person3);
-  community.add_person(*new_person4);
-  
-  string sender_username = "csiluser3";
-  string rec_username = "csiluser4";
-  
-  Person sender_person = community.get_member("csiluser3");
-  Person rec_person = community.get_member("csiluser4"); 
-  
-  // Test sending to csiluser4
-  bool res = sender_person.send_msg(rec_person, "heydude");
-  EXPECT_TRUE(res);
-  
-  // Test receiving the email correctly
-  // queue<string> res2 = rec_person.inbox;
-  
-  
-  
-  
+
+	list<string> dest_names;
+
+	Person* new_person2 = new Person("", "Tim", "Cook", 2, 30, "Possum");
+	Person* new_person3 = new Person("csiluser3", "Tim", "Cook", 2, 30, "Possum");
+	Person* new_person4 = new Person("csiluser4", "Tim", "Boyer", 2, 55, "Possum");
+
+	community.add_person(*new_person2);
+	community.add_person(*new_person3);
+	community.add_person(*new_person4);
+
+	// sending a message to a community, but without a destination, which is allowed
+	EXPECT_TRUE(community.send_msg(dest_names, "A message to no one"));
+
+	dest_names.push_front("nonsense_name");
+	// sending a message to a community with fake username - not allowed
+	EXPECT_FALSE(community.send_msg(dest_names, "A message to someone who doesn't exist"));
+	dest_names.pop_front();
+
+	// sending a message to nobody - this is allowed
+	EXPECT_TRUE(community.send_msg(dest_names, "A nice little message"));
+
+	// sending a message to a single valid username
+	dest_names.push_front("csiluser3");
+	EXPECT_TRUE(community.send_msg(dest_names, "A sweet little message"));
+
+	// sending a message to a 2 valid usernames
+	dest_names.push_front("csiluser4");
+	EXPECT_TRUE(community.send_msg(dest_names, "A kind little message"));
+
+	// sending a message to a 2 valid usernames, 1 invalid username
+	dest_names.push_front("bad_username");
+	EXPECT_FALSE(community.send_msg(dest_names, "A jovial little message"));
+
+	// checking if the "csiluser3" has the right amount of 3 messages
+	EXPECT_TRUE(community.get_member("csiluser3").read_msg());
+	EXPECT_TRUE(community.get_member("csiluser3").read_msg());
+	EXPECT_TRUE(community.get_member("csiluser3").read_msg());
+	EXPECT_FALSE(community.get_member("csiluser3").read_msg());
+
+	// checking if the "csiluser4" has the right amount of 2 messages
+	EXPECT_TRUE(community.get_member("csiluser4").read_msg());
+	EXPECT_TRUE(community.get_member("csiluser4").read_msg());
+	EXPECT_FALSE(community.get_member("csiluser4").read_msg());
+
+	// checking if the "bad_username" has the right amount of 2 messages
+	EXPECT_FALSE(community.get_member("csiluser4").read_msg());  
 }
 
